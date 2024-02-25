@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Banner Overlay</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.7/dist/tailwind.min.css" rel="stylesheet">
+
+    <style>
+        body {
+            margin: 0;
+            overflow: hidden;
+            background-color: rgba(0, 0, 0, 0);
+        }
+
+        .banner {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 50px;
+            background-color: rgba(0, 0, 0, 0.7);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2em;
+        }
+
+        #banner {
+            transition: opacity 1s;
+            opacity: 0;
+        }
+
+        #banner.show {
+            opacity: 1;
+        }
+    </style>
+</head>
+<body>
+    <div class="banner" id="banner">Breaking News!</div>
+
+    <div class="relative banner" id="banner">
+        <div class="absolute top-20 left-52 text-5xl font-semibold">Khilmi kurnia Al fata</div>
+        <div class="absolute bottom-10 text-gray-700 left-52 text-2xl font-semibold">Sambutan Ketua Acara</div>
+        <img src="banner.png" alt="" width="800">
+    </div>
+    <script>
+        var ws = new WebSocket('ws://localhost:8080');
+    
+        ws.onmessage = function(event) {
+        var reader = new FileReader();
+        reader.onload = function() {
+            var data = JSON.parse(reader.result);
+            if (data.action === 'hide') {
+                banner.classList.remove('show');
+            } else if (data.action === 'show') {
+                banner.classList.add('show');
+            if (data.text) {
+                banner.textContent = data.text;
+            }
+            }
+        };
+        reader.readAsText(event.data);
+        };
+    </script>
+</body>
+</html>

@@ -1,0 +1,25 @@
+<!-- control.html -->
+<!DOCTYPE html>
+<html>
+<head>
+  
+</head>
+<body>
+  <input id="text" type="text">
+  <button onclick="showBanner()">Show</button>
+  <button onclick="hideBanner()">Hide</button>
+
+  <script>
+    var ws = new WebSocket('ws://localhost:8080');
+
+    function showBanner() {
+      var text = document.getElementById('text').value;
+      ws.send(JSON.stringify({ action: 'show', text: text }));
+    }
+
+    function hideBanner() {
+      ws.send(JSON.stringify({ action: 'hide' }));
+    }
+  </script>
+</body>
+</html>
